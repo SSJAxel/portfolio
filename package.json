@@ -1,0 +1,20 @@
+{
+  "name": "edolus-skeleton",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Esqueleto creative-dev: WebGL + smooth scroll + motion. Base para un sitio estilo edolus.com",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "gsap": "^3.12.5",
+    "lenis": "^1.1.17",
+    "three": "^0.169.0"
+  },
+  "devDependencies": {
+    "vite": "^5.4.8"
+  }
+}

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" font-family="Inter, system-ui, sans-serif">
+  <rect width="1200" height="800" fill="#eef0f3"/>
+  <!-- window -->
+  <rect x="40" y="40" width="1120" height="720" rx="18" fill="#ffffff"/>
+  <!-- top bar -->
+  <rect x="40" y="40" width="1120" height="56" rx="18" fill="#f5f6f8"/>
+  <rect x="40" y="78" width="1120" height="18" fill="#f5f6f8"/>
+  <circle cx="72" cy="68" r="7" fill="#ff5f57"/>
+  <circle cx="96" cy="68" r="7" fill="#febc2e"/>
+  <circle cx="120" cy="68" r="7" fill="#28c840"/>
+  <rect x="470" y="56" width="260" height="24" rx="12" fill="#e7e9ee"/>
+  <text x="600" y="72" text-anchor="middle" font-size="13" fill="#8a909c">capibooking.com</text>
+
+  <!-- sidebar -->
+  <rect x="40" y="96" width="230" height="664" fill="#fafbfc"/>
+  <rect x="68" y="130" width="40" height="40" rx="10" fill="#0071e3"/>
+  <text x="124" y="157" font-size="18" font-weight="700" fill="#1d1d1f">capibooking</text>
+  <rect x="68" y="210" width="174" height="40" rx="10" fill="#0071e3" opacity="0.12"/>
+  <rect x="84" y="223" width="130" height="14" rx="7" fill="#0071e3"/>
+  <rect x="84" y="275" width="150" height="12" rx="6" fill="#c9cdd6"/>
+  <rect x="84" y="315" width="120" height="12" rx="6" fill="#c9cdd6"/>
+  <rect x="84" y="355" width="140" height="12" rx="6" fill="#c9cdd6"/>
+
+  <!-- main header -->
+  <text x="300" y="150" font-size="26" font-weight="700" fill="#1d1d1f">Agenda · Hoy</text>
+  <rect x="980" y="128" width="150" height="40" rx="20" fill="#0071e3"/>
+  <text x="1055" y="153" text-anchor="middle" font-size="14" font-weight="600" fill="#fff">+ Nuevo turno</text>
+
+  <!-- calendar grid -->
+  <g stroke="#edeff2" stroke-width="2">
+    <line x1="300" y1="210" x2="1130" y2="210"/>
+    <line x1="300" y1="290" x2="1130" y2="290"/>
+    <line x1="300" y1="370" x2="1130" y2="370"/>
+    <line x1="300" y1="450" x2="1130" y2="450"/>
+    <line x1="300" y1="530" x2="1130" y2="530"/>
+    <line x1="300" y1="610" x2="1130" y2="610"/>
+    <line x1="300" y1="690" x2="1130" y2="690"/>
+    <line x1="505" y1="200" x2="505" y2="700"/>
+    <line x1="715" y1="200" x2="715" y2="700"/>
+    <line x1="925" y1="200" x2="925" y2="700"/>
+  </g>
+  <!-- appointment blocks -->
+  <rect x="312" y="300" width="180" height="140" rx="10" fill="#0071e3"/>
+  <rect x="328" y="320" width="90" height="10" rx="5" fill="#ffffff" opacity="0.9"/>
+  <rect x="328" y="340" width="130" height="8" rx="4" fill="#ffffff" opacity="0.6"/>
+  <rect x="522" y="220" width="180" height="100" rx="10" fill="#28c840"/>
+  <rect x="538" y="238" width="90" height="10" rx="5" fill="#ffffff" opacity="0.9"/>
+  <rect x="732" y="460" width="180" height="120" rx="10" fill="#febc2e"/>
+  <rect x="748" y="478" width="90" height="10" rx="5" fill="#ffffff" opacity="0.9"/>
+  <rect x="942" y="300" width="180" height="200" rx="10" fill="#0071e3" opacity="0.85"/>
+  <rect x="958" y="320" width="90" height="10" rx="5" fill="#ffffff" opacity="0.9"/>
+</svg>

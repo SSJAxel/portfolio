@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#eeeae0" />
+    <title>Axel Santiago Chávez — AI Engineer & Backend Dev</title>
+    <meta
+      name="description"
+      content="AI Engineer & Backend Dev. Transformo ideas en productos reales, con arquitecturas muy estudiadas."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <canvas id="gl" aria-hidden="true"></canvas>
+
+    <div class="cursor" data-cursor aria-hidden="true">
+      <span class="cursor__dot"></span>
+      <span class="cursor__ring"></span>
+    </div>
+
+    <canvas class="float-gl" data-float-gl aria-hidden="true"></canvas>
+
+    <div class="preloader" data-preloader>
+      <div class="preloader__inner">
+        <span class="preloader__word" data-preloader-word>AXEL</span>
+        <span class="preloader__count" data-preloader-count>0</span>
+        <div class="preloader__bar"><span data-preloader-bar></span></div>
+      </div>
+    </div>
+
+    <main data-scroll-content>
+      <!-- NAV -->
+      <header class="nav">
+        <a class="nav__brand" href="#top" data-cursor-hover>AXEL<span>.</span></a>
+        <nav class="nav__links">
+          <a href="#work" data-i18n="nav.work" data-cursor-hover>Trabajo</a>
+          <a href="#services" data-i18n="nav.services" data-cursor-hover>Qué hago</a>
+          <a href="#journal" data-i18n="nav.journal" data-cursor-hover>Bitácora</a>
+          <a href="#studio" data-i18n="nav.studio" data-cursor-hover>Sobre mí</a>
+          <a href="#contact" class="nav__cta" data-i18n="nav.cta" data-cursor-hover
+            >Hablemos</a
+          >
+          <button class="lang" data-lang-toggle aria-label="Change language">EN</button>
+        </nav>
+      </header>
+
+      <!-- HERO -->
+      <section class="hero" id="top" data-tint="#2e2bff">
+        <div class="hero__inner">
+          <p class="hero__eyebrow" data-reveal>
+            <span class="dot"></span>
+            <span data-i18n="hero.eyebrow">AI Engineer & Backend Dev — Argentina</span>
+          </p>
+          <h1 class="hero__title">
+            <span class="line"><span data-split data-i18n="hero.l1">Transformo ideas</span></span>
+            <span class="line"><span data-split data-i18n="hero.l2">en productos</span></span>
+            <span class="line line--accent"
+              ><span data-split data-i18n="hero.l3">reales.</span></span
+            >
+          </h1>
+          <div class="hero__foot">
+            <p class="hero__sub" data-reveal data-i18n="hero.sub">
+              Construyo cosas que de verdad sirven, con arquitecturas muy
+              estudiadas. Y documento el proceso.
+            </p>
+            <a href="#work" class="hero__link" data-reveal data-cursor-hover>
+              <span data-i18n="hero.link">Proyectos</span> <i>↓</i>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- MARQUEE -->
+      <section class="marquee" aria-hidden="true">
+        <div class="marquee__track" data-marquee>
+          <span>Backend</span><span>✦</span><span>AI</span><span>✦</span>
+          <span>Arquitectura</span><span>✦</span><span>WebGL</span><span>✦</span>
+          <span>Producto</span><span>✦</span><span>Bitácora</span><span>✦</span>
+        </div>
+      </section>
+
+      <!-- SOBRE MÍ / MANIFESTO -->
+      <section class="section manifesto" id="studio" data-tint="#3f4bff">
+        <span class="section__index" data-i18n="studio.index">(01) — Sobre mí</span>
+        <p class="manifesto__text" data-split-lines data-i18n="studio.text">
+          No construyo demos. Construyo sistemas vivos: productos que creé desde
+          cero, con decisiones de arquitectura pensadas a fondo. Y voy dejando
+          registro de cómo los hago.
+        </p>
+      </section>
+
+      <!-- WORK -->
+      <section class="section work" id="work" data-tint="#5f4bff">
+        <div class="section__head">
+          <span class="section__index" data-i18n="work.index">(02) — Proyectos</span>
+          <h2 class="section__title" data-split-lines data-i18n="work.title">
+            Cosas que construí
+          </h2>
+        </div>
+
+        <ul class="projects" data-projects>
+          <li class="project" data-cursor-hover data-img="/img/capibooking.svg"
+            data-project="capibooking" role="button" tabindex="0"
+            aria-label="Ver detalle de capibooking">
+            <span class="project__num">01</span>
+            <span class="project__name">capibooking</span>
+            <span class="project__tag" data-i18n="p1.tag">SaaS multi-tenant · Spring Boot</span>
+            <span class="project__year">’26</span>
+          </li>
+          <li class="project" data-cursor-hover data-img="/img/capicotizador.svg"
+            data-project="capicotizador" role="button" tabindex="0"
+            aria-label="Ver detalle de capicotizador">
+            <span class="project__num">02</span>
+            <span class="project__name">capicotizador</span>
+            <span class="project__tag" data-i18n="p2.tag">Full-stack · Vista 3D</span>
+            <span class="project__year">’26</span>
+          </li>
+          <li class="project" data-cursor-hover data-img="/img/ai-site-auditor.svg"
+            data-project="ai-site-auditor" role="button" tabindex="0"
+            aria-label="Ver detalle de ai-site-auditor">
+            <span class="project__num">03</span>
+            <span class="project__name">ai-site-auditor</span>
+            <span class="project__tag" data-i18n="p3.tag">IA local · Tooling</span>
+            <span class="project__year">’25</span>
+          </li>
+        </ul>
+      </section>
+
+      <!-- SERVICES / CAPACIDADES -->
+      <section class="section services" id="services" data-tint="#7a4bff">
+        <div class="section__head">
+          <span class="section__index" data-i18n="services.index">(03) — Qué hago</span>
+          <h2 class="section__title" data-split-lines data-i18n="services.title">
+            Capacidades
+          </h2>
+        </div>
+        <div class="services__grid">
+          <article class="svc" data-reveal data-cursor-hover>
+            <span class="svc__num">/01</span>
+            <h3 data-i18n="svc1.title">Backend & arquitectura</h3>
+            <p data-i18n="svc1.desc">APIs, multi-tenancy, pagos y datos. Pensado para escalar.</p>
+          </article>
+          <article class="svc" data-reveal data-cursor-hover>
+            <span class="svc__num">/02</span>
+            <h3 data-i18n="svc2.title">IA aplicada</h3>
+            <p data-i18n="svc2.desc">LLMs, visión y modelos locales dentro de productos reales.</p>
+          </article>
+          <article class="svc" data-reveal data-cursor-hover>
+            <span class="svc__num">/03</span>
+            <h3 data-i18n="svc3.title">Creative dev</h3>
+            <p data-i18n="svc3.desc">WebGL, shaders y motion cuando el producto lo pide.</p>
+          </article>
+          <article class="svc" data-reveal data-cursor-hover>
+            <span class="svc__num">/04</span>
+            <h3 data-i18n="svc4.title">Producto end-to-end</h3>
+            <p data-i18n="svc4.desc">De la idea al deploy: diseño, build y puesta en producción.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- BITÁCORA (entradas en src/modules/Journal.js) -->
+      <section class="section journal" id="journal" data-tint="#2b7bff">
+        <div class="section__head">
+          <span class="section__index" data-i18n="journal.index">(04) — Bitácora</span>
+          <h2 class="section__title" data-split-lines data-i18n="journal.title">
+            Lo que voy aprendiendo
+          </h2>
+        </div>
+        <p class="journal__lead" data-reveal data-i18n="journal.lead">
+          Notas de lo que construyo. La versión larga vive en LinkedIn.
+        </p>
+        <div class="logs" data-journal></div>
+      </section>
+
+      <!-- NUMBERS (editá estos valores cuando quieras) -->
+      <section class="section numbers" data-tint="#5f4bff">
+        <div class="num" data-reveal>
+          <span class="num__val" data-count="3">0</span>
+          <span class="num__label" data-i18n="num1.label">productos propios</span>
+        </div>
+        <div class="num" data-reveal>
+          <span class="num__val" data-count="5">0</span>
+          <span class="num__label" data-i18n="num2.label">stacks principales</span>
+        </div>
+        <div class="num" data-reveal>
+          <span class="num__val" data-count="100">0</span>
+          <span class="num__label" data-i18n="num3.label">% construido por mí</span>
+        </div>
+      </section>
+
+      <!-- FOOTER / CTA -->
+      <footer class="footer" id="contact" data-tint="#2e2bff">
+        <span class="section__index" data-i18n="footer.index">(05) — Contacto</span>
+        <h2 class="footer__cta">
+          <span class="line"><span data-split data-i18n="footer.l1">Tenés una idea.</span></span>
+          <span class="line line--accent"
+            ><span data-split data-i18n="footer.l2">Hagámosla real.</span></span
+          >
+        </h2>
+        <a
+          class="footer__mail"
+          href="mailto:chavezaxelsantiago@gmail.com"
+          data-cursor-hover
+          >chavezaxelsantiago@gmail.com</a
+        >
+        <div class="footer__links">
+          <a href="https://www.linkedin.com/in/chavezaxelsantiago/" target="_blank" rel="noopener" data-cursor-hover>LinkedIn ↗</a>
+          <a href="https://github.com/SSJAxel" target="_blank" rel="noopener" data-cursor-hover>GitHub ↗</a>
+        </div>
+        <div class="footer__meta">
+          <span>Axel Santiago Chávez © 2026</span>
+          <span data-i18n="footer.place">Argentina — remoto</span>
+        </div>
+      </footer>
+    </main>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
