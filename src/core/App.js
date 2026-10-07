@@ -12,6 +12,7 @@ import I18n from '../modules/I18n.js';
 import Journal from '../modules/Journal.js';
 import SectionTint from '../modules/SectionTint.js';
 import ProjectDetail from '../modules/ProjectDetail.js';
+import MobileNav from '../modules/MobileNav.js';
 
 /**
  * Punto de composición. No contiene lógica de bajo nivel: cablea los
@@ -50,6 +51,11 @@ export default class App {
       lang: this.i18n.lang,
       lock: () => this.smooth.stop(),
       unlock: () => this.smooth.start(),
+    });
+    this.mobileNav = new MobileNav({
+      lock: () => this.smooth.stop(),
+      unlock: () => this.smooth.start(),
+      scrollTo: (target) => this.smooth.scrollTo(target),
     });
 
     this._bindEvents();
@@ -120,6 +126,7 @@ export default class App {
     this.hoverImage.destroy();
     this.sectionTint.destroy();
     this.projectDetail.destroy();
+    this.mobileNav.destroy();
     this.scene.dispose();
   }
 }

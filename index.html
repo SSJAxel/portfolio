@@ -2,7 +2,10 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content"
+    />
     <meta name="theme-color" content="#eeeae0" />
     <title>Axel Santiago Chávez — AI Engineer & Backend Dev</title>
     <meta
@@ -72,8 +75,28 @@
             >Hablemos</a
           >
           <button class="lang" data-lang-toggle aria-label="Change language">EN</button>
+          <button
+            class="nav__burger"
+            data-burger
+            aria-label="Menú"
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+          >
+            <span></span><span></span>
+          </button>
         </nav>
       </header>
+
+      <!-- Menú mobile (overlay) -->
+      <div class="mobile-menu" id="mobile-menu" data-mobile-menu aria-hidden="true">
+        <nav class="mobile-menu__nav">
+          <a href="#work" data-i18n="nav.work" data-menu-link>Trabajo</a>
+          <a href="#services" data-i18n="nav.services" data-menu-link>Qué hago</a>
+          <a href="#journal" data-i18n="nav.journal" data-menu-link>Bitácora</a>
+          <a href="#studio" data-i18n="nav.studio" data-menu-link>Sobre mí</a>
+          <a href="#contact" data-i18n="nav.cta" data-menu-link>Hablemos</a>
+        </nav>
+      </div>
 
       <!-- HERO -->
       <section class="hero" id="top" data-tint="#2e2bff">

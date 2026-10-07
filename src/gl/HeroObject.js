@@ -9,7 +9,7 @@ import {
 import { gsap } from 'gsap';
 import vertexShader from './shaders/hero.vert?raw';
 import fragmentShader from './shaders/hero.frag?raw';
-import { damp, clamp, prefersReducedMotion } from '../utils/math.js';
+import { damp, clamp, prefersReducedMotion, isLowPower } from '../utils/math.js';
 
 /**
  * El "organismo" del hero: una icoesfera de alto detalle deformada por ruido
@@ -38,8 +38,9 @@ export default class HeroObject {
       },
     });
 
-    // detail 20 -> ~malla densa y suave sin fundir la GPU.
-    this.mesh = new Mesh(new IcosahedronGeometry(1, 20), this.material);
+    // Menos subdivisión en mobile: ~4x menos triángulos, igual se ve suave.
+    const detail = isLowPower() ? 10 : 20;
+    this.mesh = new Mesh(new IcosahedronGeometry(1, detail), this.material);
     this.mesh.position.y = 0.25;
     this.mesh.scale.setScalar(1.15);
 

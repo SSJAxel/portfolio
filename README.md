@@ -49,6 +49,7 @@ src/
 │  ├─ HoverImage.js      # preview de proyecto distorsionada en WebGL (canvas overlay)
 │  ├─ ProjectDetail.js   # panel de detalle deslizante, data-driven y bilingüe
 │  ├─ SectionTint.js     # IntersectionObserver -> color de fondo por sección
+│  ├─ MobileNav.js       # menú overlay mobile (burger + smooth scroll)
 │  ├─ Journal.js         # bitácora data-driven (entradas + traducciones)
 │  └─ I18n.js            # traducción ES/EN por [data-i18n], persistida
 ├─ utils/math.js

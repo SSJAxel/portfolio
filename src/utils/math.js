@@ -17,3 +17,13 @@ export const map = (v, inMin, inMax, outMin, outMax) =>
 
 export const prefersReducedMotion = () =>
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/** Puntero grueso = touch (celular/tablet). Capacidad, no user-agent. */
+export const isTouch = () => window.matchMedia('(pointer: coarse)').matches;
+
+/**
+ * "Bajo poder": touch o pantalla chica. Lo usamos para degradar el costo del
+ * WebGL en mobile (menos geometría, sin bloom, DPR más capeado) y que vaya
+ * fluido en vez de calentar el teléfono.
+ */
+export const isLowPower = () => isTouch() || window.innerWidth < 760;

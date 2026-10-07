@@ -27,7 +27,22 @@
   box-sizing: border-box;
 }
 html {
-  -webkit-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%; /* sin inflar fuentes en landscape */
+  -webkit-tap-highlight-color: transparent; /* sin flash gris/azul al tocar */
+  overscroll-behavior-y: none; /* sin pull-to-refresh secuestrando el scroll */
+}
+
+/* Controles: tap inmediato, sin selección de texto ni callout al mantener. */
+button,
+a,
+[role='button'] {
+  touch-action: manipulation;
+}
+button,
+[role='button'] {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
 }
 
 body {
@@ -175,11 +190,12 @@ a {
   top: 0;
   left: 0;
   width: 100%;
-  z-index: 40;
+  z-index: 75; /* sobre el menú mobile (60) para que el burger siga clickeable */
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: clamp(1rem, 2.2vw, 1.75rem) var(--pad);
+  padding-top: calc(clamp(1rem, 2.2vw, 1.75rem) + env(safe-area-inset-top, 0px));
 }
 .nav__brand {
   font-family: var(--font-display);
@@ -242,10 +258,85 @@ a {
   border-color: var(--accent);
   color: var(--accent);
 }
+/* Burger (solo mobile) */
+.nav__burger {
+  display: none;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  padding: 0;
+}
+.nav__burger span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 18px;
+  height: 1.6px;
+  background: var(--ink);
+  transition: transform 0.35s var(--ease-io), opacity 0.2s var(--ease-io);
+}
+.nav__burger span:first-child {
+  transform: translate(-50%, -5px);
+}
+.nav__burger span:last-child {
+  transform: translate(-50%, 5px);
+}
+.nav__burger.is-open span:first-child {
+  transform: translate(-50%, 0) rotate(45deg);
+}
+.nav__burger.is-open span:last-child {
+  transform: translate(-50%, 0) rotate(-45deg);
+}
+
 @media (max-width: 680px) {
-  .nav__links a:not(.nav__cta) {
+  .nav__links a {
     display: none;
   }
+  .nav__burger {
+    display: block;
+  }
+}
+
+/* Menú mobile (overlay) */
+.mobile-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: var(--paper);
+  display: flex;
+  align-items: center;
+  padding: var(--pad);
+  padding-top: calc(5rem + env(safe-area-inset-top, 0px));
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-12px);
+  transition: opacity 0.4s var(--ease-out), transform 0.4s var(--ease-out),
+    visibility 0.4s;
+}
+.mobile-menu.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.mobile-menu__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.mobile-menu__nav a {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.2rem, 11vw, 3.5rem);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--ink);
+}
+.mobile-menu__nav a:last-child {
+  color: var(--accent);
 }
 
 /* ---------- Layout ---------- */
@@ -884,5 +975,65 @@ main {
   .js-ready .word {
     opacity: 1 !important;
     transform: none !important;
+  }
+}
+
+/* ============================================================
+   TOUCH — neutraliza los :hover que quedarían "pegados" tras un tap
+   (en touch el browser aplica :hover al tocar y no lo suelta).
+   ============================================================ */
+@media (hover: none) {
+  .project:hover {
+    padding-left: 0;
+    color: inherit;
+  }
+  .project:hover .project__num,
+  .project:hover .project__tag {
+    color: var(--muted);
+  }
+  .svc:hover {
+    transform: none;
+    background: rgba(255, 255, 255, 0.35);
+    border-color: var(--line);
+    color: inherit;
+  }
+  .svc:hover .svc__num {
+    color: var(--accent);
+  }
+  .svc:hover p {
+    color: var(--muted);
+  }
+  .log:hover {
+    padding-left: 0;
+    color: inherit;
+  }
+  .log:hover .log__date,
+  .log:hover .log__excerpt {
+    color: var(--muted);
+  }
+  .log:hover .log__arrow {
+    transform: none;
+  }
+  .nav__cta:hover {
+    background: var(--ink);
+  }
+  .lang:hover {
+    border-color: var(--line);
+    color: var(--ink);
+  }
+  .hero__link:hover i {
+    transform: none;
+  }
+  .detail__close:hover {
+    transform: none;
+    border-color: var(--line);
+  }
+  .detail__link:hover {
+    background: var(--ink);
+  }
+  .nav__links a:not(.nav__cta):hover::after,
+  .footer__mail:hover::after,
+  .footer__links a:hover::after {
+    transform: scaleX(0);
   }
 }

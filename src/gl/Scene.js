@@ -14,6 +14,7 @@ import { UnrealBloomPass } from 'three/examples/jsm/postprocessing/UnrealBloomPa
 import { ShaderPass } from 'three/examples/jsm/postprocessing/ShaderPass.js';
 import Background from './Background.js';
 import HeroObject from './HeroObject.js';
+import { isLowPower } from '../utils/math.js';
 
 // Shader estilizado: desactivamos la gestión de color para que los
 // valores sRGB que mezclamos salgan WYSIWYG, sin conversión a lineal.
@@ -56,6 +57,10 @@ export default class Scene {
     this.clock = new Clock();
     this.dpr = 1;
 
+    // En mobile: sin bloom (caro y casi no se nota) y DPR más capeado.
+    this.lowPower = isLowPower();
+    this.useBloom = !this.lowPower;
+
     this.background = new Background();
     this.background.addTo(this.scene);
 
@@ -66,7 +71,7 @@ export default class Scene {
     this.bloomLayer = new Layers();
     this.bloomLayer.set(BLOOM_LAYER);
 
-    this._setupComposers();
+    if (this.useBloom) this._setupComposers();
     this.resize();
   }
 
@@ -148,11 +153,13 @@ export default class Scene {
   resize() {
     const w = window.innerWidth;
     const h = window.innerHeight;
-    this.dpr = Math.min(window.devicePixelRatio || 1, 2);
+    this.dpr = Math.min(window.devicePixelRatio || 1, this.lowPower ? 1.5 : 2);
     this.renderer.setPixelRatio(this.dpr);
     this.renderer.setSize(w, h, true);
-    this.bloomComposer.setSize(w, h);
-    this.finalComposer.setSize(w, h);
+    if (this.useBloom) {
+      this.bloomComposer.setSize(w, h);
+      this.finalComposer.setSize(w, h);
+    }
 
     this.camera.aspect = w / h;
     this.camera.updateProjectionMatrix();
@@ -171,6 +178,13 @@ export default class Scene {
     this.background.update(elapsed, dt);
     this.hero.update(elapsed, dt);
 
+    if (!this.useBloom) {
+      // Mobile: una sola pasada directa, sin composer.
+      this.renderer.setClearColor(this.paper, 1);
+      this.renderer.render(this.scene, this.camera);
+      return;
+    }
+
     // 1) Glow: solo la capa de bloom, sobre negro.
     this.camera.layers.set(BLOOM_LAYER);
     this.renderer.setClearColor(0x000000, 1);
@@ -185,8 +199,10 @@ export default class Scene {
   dispose() {
     this.background.dispose();
     this.hero.dispose();
-    this.bloomComposer.dispose();
-    this.finalComposer.dispose();
+    if (this.useBloom) {
+      this.bloomComposer.dispose();
+      this.finalComposer.dispose();
+    }
     this.renderer.dispose();
   }
 }
