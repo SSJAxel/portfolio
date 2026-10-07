@@ -10,6 +10,7 @@
   --muted: #6c685c; /* texto secundario */
   --accent: #2e2bff; /* acento eléctrico (llamativo) */
   --accent-2: #ff5a3c; /* secundario cálido */
+  --tint: #2e2bff; /* color de sección activa (fondo fallback mobile) */
   --line: rgba(21, 20, 15, 0.14);
 
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
@@ -84,6 +85,24 @@ a {
   height: 100svh;
   z-index: -1;
   display: block;
+}
+
+/* Fondo fallback para mobile (sin WebGL): neblina de color por sección en CSS,
+   liviana y estable. --tint lo actualiza SectionTint igual que en desktop. */
+body.no-gl #gl {
+  display: none;
+}
+body.no-gl::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(
+    130% 95% at 78% -8%,
+    var(--tint, #2e2bff) 0%,
+    transparent 55%
+  );
+  opacity: 0.16;
 }
 
 /* ---------- Cursor ---------- */
@@ -261,11 +280,12 @@ a {
 /* Burger (solo mobile) */
 .nav__burger {
   display: none;
-  width: 42px;
-  height: 42px;
-  border: 1px solid var(--line);
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(21, 20, 15, 0.25);
   border-radius: 50%;
-  background: transparent;
+  background: rgba(238, 234, 224, 0.7);
+  backdrop-filter: blur(6px);
   cursor: pointer;
   position: relative;
   padding: 0;
@@ -275,8 +295,9 @@ a {
   left: 50%;
   top: 50%;
   width: 18px;
-  height: 1.6px;
+  height: 2px;
   background: var(--ink);
+  border-radius: 2px;
   transition: transform 0.35s var(--ease-io), opacity 0.2s var(--ease-io);
 }
 .nav__burger span:first-child {

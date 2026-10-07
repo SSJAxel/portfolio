@@ -1,18 +1,17 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-import Scene from '../gl/Scene.js';
 import Smooth from '../modules/Smooth.js';
 import Cursor from '../modules/Cursor.js';
 import Preloader from '../modules/Preloader.js';
 import Reveal from '../modules/Reveal.js';
 import Marquee from '../modules/Marquee.js';
-import HoverImage from '../modules/HoverImage.js';
 import I18n from '../modules/I18n.js';
 import Journal from '../modules/Journal.js';
 import SectionTint from '../modules/SectionTint.js';
 import ProjectDetail from '../modules/ProjectDetail.js';
 import MobileNav from '../modules/MobileNav.js';
+import { isLowPower } from '../utils/math.js';
 
 /**
  * Punto de composición. No contiene lógica de bajo nivel: cablea los
@@ -22,8 +21,17 @@ export default class App {
   constructor() {
     document.documentElement.classList.add('js-ready');
 
-    const canvas = document.querySelector('#gl');
-    this.scene = new Scene(canvas);
+    // En mobile NO corremos WebGL: es demasiado para muchos teléfonos (el
+    // navegador puede recargar la pestaña por memoria). Usamos un fondo CSS
+    // liviano que igual reacciona por sección. El 3D (y Three.js, 464KB) se
+    // cargan dinámicamente SOLO en desktop, así mobile ni los descarga.
+    this.scene = null;
+    this.hoverImage = null;
+    this._booted = false;
+    this.hasGL = !isLowPower();
+    if (this.hasGL) this._initGL(document.querySelector('#gl'));
+    else document.body.classList.add('no-gl');
+
     this.smooth = new Smooth();
     this.cursor = new Cursor();
 
@@ -45,8 +53,11 @@ export default class App {
     this.reveal = new Reveal();
     this.preloader = new Preloader();
     this.marquee = new Marquee();
-    this.hoverImage = new HoverImage();
-    this.sectionTint = new SectionTint((color) => this.scene.setSectionColor(color));
+    this.sectionTint = new SectionTint((color) => {
+      if (this.scene) this.scene.setSectionColor(color);
+      // Alimenta también el fondo CSS de mobile (var --tint).
+      document.documentElement.style.setProperty('--tint', color);
+    });
     this.projectDetail = new ProjectDetail({
       lang: this.i18n.lang,
       lock: () => this.smooth.stop(),
@@ -63,22 +74,41 @@ export default class App {
     this._boot();
   }
 
+  /** Carga WebGL bajo demanda (solo desktop). Si falla, cae a fondo CSS. */
+  async _initGL(canvas) {
+    try {
+      const [{ default: Scene }, { default: HoverImage }] = await Promise.all([
+        import('../gl/Scene.js'),
+        import('../modules/HoverImage.js'),
+      ]);
+      this.scene = new Scene(canvas);
+      this.hoverImage = new HoverImage();
+      if (this._booted) this.scene.playIntro(); // si el preloader ya terminó
+    } catch (e) {
+      console.error('WebGL no disponible, sigo con fondo CSS:', e);
+      document.body.classList.add('no-gl');
+    }
+  }
+
   _bindEvents() {
-    // Puntero normalizado -> shader.
+    // Puntero normalizado -> shader (solo si hay WebGL).
     this._onPointer = (e) => {
-      this.scene.setMouse(e.clientX / window.innerWidth, e.clientY / window.innerHeight);
+      if (this.scene)
+        this.scene.setMouse(e.clientX / window.innerWidth, e.clientY / window.innerHeight);
     };
     window.addEventListener('pointermove', this._onPointer, { passive: true });
 
     // Progreso de scroll -> shader.
-    this.smooth.bindProgress((p) => this.scene.setScroll(p));
+    this.smooth.bindProgress((p) => {
+      if (this.scene) this.scene.setScroll(p);
+    });
 
     // Resize con debounce; refrescamos ScrollTrigger tras reflow.
     let rAF;
     this._onResize = () => {
       cancelAnimationFrame(rAF);
       rAF = requestAnimationFrame(() => {
-        this.scene.resize();
+        if (this.scene) this.scene.resize();
         ScrollTrigger.refresh();
       });
     };
@@ -95,9 +125,9 @@ export default class App {
     // deltaTime de GSAP viene en ms.
     this._tick = (_time, deltaMs) => {
       const dt = deltaMs / 1000;
-      if (this._visible) this.scene.update();
+      if (this._visible && this.scene) this.scene.update();
       this.cursor.update(dt);
-      this.hoverImage.update(dt);
+      if (this.hoverImage) this.hoverImage.update(dt);
     };
     gsap.ticker.add(this._tick);
   }
@@ -111,8 +141,10 @@ export default class App {
     }
     this.reveal.initScroll();
     await this.preloader.play();
-    // El organismo entra junto con el reveal del hero.
-    this.scene.playIntro();
+    this._booted = true;
+    // El organismo entra junto con el reveal del hero (solo desktop/WebGL).
+    // Si el chunk de WebGL todavía no cargó, _initGL dispara la intro al llegar.
+    if (this.scene) this.scene.playIntro();
     this.reveal.intro();
   }
 
@@ -123,10 +155,10 @@ export default class App {
     this.smooth.destroy();
     this.cursor.destroy();
     this.marquee.destroy();
-    this.hoverImage.destroy();
+    if (this.hoverImage) this.hoverImage.destroy();
     this.sectionTint.destroy();
     this.projectDetail.destroy();
     this.mobileNav.destroy();
-    this.scene.dispose();
+    if (this.scene) this.scene.dispose();
   }
 }
